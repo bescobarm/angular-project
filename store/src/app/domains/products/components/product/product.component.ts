@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Product } from '../../../shared/models/product.models';
+import { Product } from '@shared/models/product.models';
+import { ReversePipe } from '@shared/pipes/reverse.pipe';
+import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe';
+import { RouterLinkWithHref } from '@angular/router';
 
 @Component({
   selector: 'app-product',
-  imports: [CommonModule],
+  imports: [CommonModule,ReversePipe,TimeAgoPipe,RouterLinkWithHref],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
@@ -14,7 +17,6 @@ export class ProductComponent {
   @Output() addToCart = new EventEmitter;
 
   addToCartHandler() {
-    console.log("click from child")
-    this.addToCart.emit("msg sent from child")
+    this.addToCart.emit(this.product)
   }
 }

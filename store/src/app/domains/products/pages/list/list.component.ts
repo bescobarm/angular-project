@@ -1,7 +1,11 @@
-import { Component, signal } from '@angular/core';
-import { ProductComponent } from '../../components/product/product.component';
+import { Component, inject, signal } from '@angular/core';
+import { ProductComponent } from '@products/components/product/product.component';
 import { CommonModule } from '@angular/common';
-import { Product } from '../../../shared/models/product.models';
+import { Product } from '@shared/models/product.models';
+import { CartService } from '@shared/services/cart.service';
+import { ProductService } from '@shared/services/product.service';
+import { CategoryService } from '@shared/services/category.service';
+import { Category } from '@shared/models/category.models';
 
 @Component({
   selector: 'app-list',
@@ -11,29 +15,35 @@ import { Product } from '../../../shared/models/product.models';
 })
 export class ListComponent {
   products = signal<Product[]>([])
+  categories = signal<Category[]>([])
+  private cartService = inject(CartService)
+  private productService = inject(ProductService)
+  private categoryService = inject(CategoryService)
 
-  constructor() {
-    const initProducts: Product[] = [
-      {
-        id: Date.now(),
-        title: 'prod 1',
-        price: '123',
-        image: 'https://picsum.photos/640/640?r=23',
-        creationAt: new Date().toISOString()
-      },
-      {
-        id: Date.now(),
-        title: 'prod 2',
-        price: '456',
-        image: 'https://picsum.photos/640/640?r=24',
-        creationAt: new Date().toISOString()
-      }
-    ]
-    this.products.set(initProducts)
+  ngOnInit() {
+    this.getProducts()
+    this.getCategories()
   }
 
-  fromChild(event: string) {
-    console.log("we're in the father")
-    console.log("msg: ", event)
+  addToCart(product: Product) {
+    this.cartService.addToCart(product)
+  }
+
+  private getProducts() {
+    this.productService.getProducts()
+    .subscribe({
+      next: (products) => {
+        this.products.set(products)
+      },
+    })
+  }
+
+  private getCategories() {
+    this.categoryService.getCategories()
+    .subscribe({
+      next: (data) => {
+        this.categories.set(data)
+      },
+    })
   }
 }
