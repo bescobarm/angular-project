@@ -1,11 +1,11 @@
 import { Component, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { PpService } from '@shared/services/pp.service';
 import { CartService } from '../../services/cart.service';
 import { RouterLinkWithHref, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule,RouterLinkWithHref,RouterLinkActive],
+  imports: [RouterLinkWithHref, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -15,7 +15,13 @@ export class HeaderComponent {
   cartProducts = this.cartService.cartProducts
   total = this.cartService.total
 
+  private pService = inject(PpService)
+
   toogleSideMenu() {
     this.hideSidebar.update(prevState => !prevState)
+  }
+
+  changePValue() {
+    this.pService.changeP()
   }
 }

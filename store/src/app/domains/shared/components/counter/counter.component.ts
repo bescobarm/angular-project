@@ -1,4 +1,6 @@
-import { Component, Input, signal, SimpleChanges } from '@angular/core';
+import { Component, effect, inject, Input, signal, SimpleChanges } from '@angular/core';
+import { PpService } from '@shared/services/pp.service';
+import { sign } from 'crypto';
 
 @Component({
   selector: 'app-counter',
@@ -13,11 +15,18 @@ export class CounterComponent {
   counter = signal(0)
   counterRef: number | undefined
 
+  ppService = inject(PpService)
+  l = false
+
   constructor(){
     // It's not async
     // before render
     console.log("constructor")
     console.log("-".repeat(10))
+
+    effect(() => {
+      this.l = this.ppService.getP()
+    })
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -44,6 +53,8 @@ export class CounterComponent {
     this.counterRef = window.setInterval(() => {
       this.counter.update(statePrev => statePrev + 1)
     }, 1000)
+
+    // this.l.set(this.ppService.ppValue())
   }
 
   ngAfterViewInit() {

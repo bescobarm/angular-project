@@ -1,28 +1,35 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, Input, signal, SimpleChanges } from '@angular/core';
 import { ProductComponent } from '@products/components/product/product.component';
-import { CommonModule } from '@angular/common';
+
 import { Product } from '@shared/models/product.models';
 import { CartService } from '@shared/services/cart.service';
 import { ProductService } from '@shared/services/product.service';
 import { CategoryService } from '@shared/services/category.service';
 import { Category } from '@shared/models/category.models';
+import { RouterLinkWithHref } from '@angular/router';
 
 @Component({
   selector: 'app-list',
-  imports: [CommonModule, ProductComponent],
+  imports: [ProductComponent,RouterLinkWithHref],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
 })
-export class ListComponent {
+export default class ListComponent {
   products = signal<Product[]>([])
   categories = signal<Category[]>([])
+
   private cartService = inject(CartService)
   private productService = inject(ProductService)
   private categoryService = inject(CategoryService)
 
+  @Input() category_id?: string
+
   ngOnInit() {
-    this.getProducts()
     this.getCategories()
+  }
+
+  ngOnChanges() {
+    this.getProducts()  
   }
 
   addToCart(product: Product) {
@@ -30,7 +37,7 @@ export class ListComponent {
   }
 
   private getProducts() {
-    this.productService.getProducts()
+    this.productService.getProducts(this.category_id)
     .subscribe({
       next: (products) => {
         this.products.set(products)
@@ -42,7 +49,13 @@ export class ListComponent {
     this.categoryService.getCategories()
     .subscribe({
       next: (data) => {
-        this.categories.set(data)
+        this.categories.set(data.filter(category => 
+          category.name === 'Furniture' || 
+          category.name === 'Electronics' || 
+          category.name === 'Miscellaneous' ||
+          category.name === 'Shoes'  ||
+          category.name === 'nuevo'
+        ));
       },
     })
   }
