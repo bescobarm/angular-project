@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "routes": [],
+  "framework": {
+    "version": "19.1.2"
+  },
+  "crons": []
+}
