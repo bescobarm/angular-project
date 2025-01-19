@@ -36,11 +36,13 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/store",
             "index": "src/index.html",
-            "browser": "src/main.ts",
+            "main": "src/main.ts",
+
             "polyfills": [
               "zone.js"
             ],
@@ -53,13 +55,7 @@
             ],
             "styles": [
               "src/styles.css"
-            ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            ]
           },
           "configurations": {
             "production": {
@@ -119,11 +115,24 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
+
         }
       }
     }
   },
   "cli": {
-    "analytics": "1349b0cb-c873-4181-9306-00f8c0d918c9"
+    "analytics": "1349b0cb-c873-4181-9306-00f8c0d918c9",
+    "schematicCollections": [
+      "angular-eslint"
+    ]
   }
 }

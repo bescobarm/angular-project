@@ -1,0 +1,18 @@
+<p-carousel [value]="products()" [numVisible]="3" [numScroll]="3" [circular]="true" autoplayInterval="3000">
+    <ng-template let-product #item>
+        <div class="border rounded m-2 p-4">
+            <div class="mb-4">
+                <div class="relative mx-auto">
+                    <img [src]="product.images[0]" [alt]="product.name" class="w-full rounded-border" />
+                </div>
+            </div>
+            <div class="mb-4 font-medium">{{ product.title }}</div>
+            <div class="flex justify-between items-center">
+                <div class="mt-0 font-semibold text-xl">{{ '$' + product.price }}</div>
+                <span>
+                    <p-button label="Check" />
+                </span>
+            </div>
+        </div>
+    </ng-template>
+</p-carousel>
