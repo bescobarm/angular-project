@@ -15,6 +15,6 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(),
     provideAnimationsAsync(),
-        providePrimeNG({})
+    providePrimeNG({})
   ]
 };

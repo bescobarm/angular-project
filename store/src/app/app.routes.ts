@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { CineComponent } from '@shared/components/cine/cine.component';
 import { LayoutComponent } from '@shared/components/layout/layout.component';
 
 export const routes: Routes = [
@@ -23,6 +24,10 @@ export const routes: Routes = [
     {
         path: 'ca',
         loadComponent: () => import('./domains/shared/carousel/carousel.component')
+    },
+    {
+        path: 'cine',
+        component: CineComponent
     },
     {
         path: '**',
