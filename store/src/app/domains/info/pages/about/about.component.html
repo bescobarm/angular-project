@@ -14,5 +14,7 @@
     </div>
 </div>
 <input type="number" [value]="duration()" (change)="changeDuration($event)"> 
-<input type="text" [value]="message()" (change)="changeMessage($event)"> 
+<input type="text" [value]="message()" (change)="changeMessage($event)">
+
+<app-cine [inputRows]="row" [inputCols]="col"/> 
 

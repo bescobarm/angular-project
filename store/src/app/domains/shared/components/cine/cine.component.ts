@@ -1,5 +1,5 @@
 
-import { Component, Input, ViewChild, computed, signal } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild, computed, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
@@ -11,8 +11,8 @@ import { RouterLink } from '@angular/router';
   imports: [FormsModule, RouterLink]
 })
 export class CineComponent {
-  @Input({required: true}) inputRows: number = 6;
-  @Input({required: true}) inputCols: number = 6;
+  @Input({required: true}) inputRows!: number;
+  @Input({required: true}) inputCols!: number;
   @ViewChild('paymentForm') paymentForm!: NgForm;
 
   // Seats signals
@@ -34,6 +34,15 @@ export class CineComponent {
 
   // Computed
   selectedSeatsCount = computed(() => this.selectedSeats().size);
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['inputRows']) {
+      this.rows.set(this.inputRows);
+    }
+    if (changes['inputCols']) {
+      this.cols.set(this.inputCols);
+    }
+  }
 
   // Seats
   generateArray(n: number): number[] {
